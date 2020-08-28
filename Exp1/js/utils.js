@@ -10,7 +10,6 @@ function roll(numFaces, reroll) {
             return function() {
                 if (--tick >= 0) {
                     var rollSideTime = Math.random()*1000/(numRotations-countRotations); //decreasing rotation speed
-                    console.log("Roll #" + countRotations + ": " + rollSideTime + " ms")
                     ++countRotations;
                     window.setTimeout(internalCallback, rollSideTime);
                     callback();
@@ -87,14 +86,15 @@ function callout(call){
 
 function computerBSDetector(){
     trial.compDetect = cunif(0, expt.diceSides, trial.reportedRoll); //0.9 is to make it so that doesn't always call out 10
-    console.log(trial.compDetect);
+    var rand = Math.random();
     //trial.callBS = Math.random() < 0.4; //EDIT: opponent is random detector for now
-    trial.callBS = Math.random() < trial.compDetect;
+    trial.callBS = rand < trial.compDetect;
     trial.compLie = -1;
 }
 
 function restartTrial(){
     $('#trial').css('display','block');
+    window.scrollTo(0, 0);
     if(trial.roleCurrent == "bullshitter"){
         var roletxt = "die-roller"
     } else{

@@ -73,7 +73,7 @@ var trialData = []; // store of all trials
 
 // TODO, Potentially: pick randomly between human/threePoints instructions.
 function pageLoad() {
-    var startpage = "start"; //{"consent", "instructions", "start"}
+    var startpage = "consent"; //{"consent", "instructions", "start"}
     clicksMap[startpage]();
 }
 
@@ -84,11 +84,13 @@ function clickConsent() {
     $('#instructRounds').html(expt.trials);
     $('#instructDiceSides').html(expt.diceSides);
     expt.occlude = sample(expt.occlude);
+    window.scrollTo(0, 0);
 }
 
 function clickInstructions() {
     $('#instructions').css('display','none');
     $('#prePractice').css('display','block');
+    window.scrollTo(0, 0);
 }
 
 function clickPrePractice(){
@@ -99,6 +101,7 @@ function clickPrePractice(){
     } else{
         bullshitDetector();
     }
+    window.scrollTo(0, 0);
 }
 
 function clickPostPractice(){
@@ -113,6 +116,7 @@ function clickPostPractice(){
     } else{
         bullshitDetector();
     }
+    window.scrollTo(0, 0);
 }
 
 
