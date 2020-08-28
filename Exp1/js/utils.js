@@ -113,10 +113,6 @@ function restartTrial(){
     $('#reportRoll').prop('disabled',true);
     $('#next').prop('disabled',true);
 
-    if(trial.exptPart != 'practice'){
-        trial.pseudoRound = trial.trialNumber in expt.pseudo;
-    }
-
     trial.catch.key = -1;
     trial.catch.response = -1;
     trial.catch.responseTime = -1;
@@ -264,7 +260,6 @@ function recordData(){
         catchKey: trial.catch.key,
         catchResponse: trial.catch.response,
         catchResponseTime: trial.catch.responseTime,
-        pseudoRound: trial.pseudoRound,
         trialTime: trial.trialTime
     })
 }

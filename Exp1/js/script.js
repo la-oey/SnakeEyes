@@ -11,8 +11,6 @@ var expt = {
     allTrialProbs: [0.2,0.5,0.8],
     occlude: ['computer','human'],
     catchTrials: [],
-    // asymmTrials: [],
-    pseudo: null,
     stat: {
         playerTotalScore: 0,
         oppTotalScore: 0,
@@ -59,7 +57,6 @@ var trial = {
         responseStartTime: 0,
         responseTime: 0
     },
-    pseudoRound: false,
     playerTrialScore: 0,
     oppTrialScore: 0
 };
@@ -107,7 +104,6 @@ function clickPrePractice(){
 function clickPostPractice(){
     $('#postPractice').css('display','none');
     expt.catchTrials = distributeChecks(expt.trials, 0.15); // 0.1 of expt trials have an attention check
-    expt.pseudo = distributePseudo(expt.trials, 0, 10);
     expt.roleFirst = sample(expt.roles);
     //expt.asymmTrials = distributeAsymm(expt.trials, 0.4);
     trial.roleCurrent = expt.roleFirst;
