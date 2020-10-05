@@ -133,7 +133,7 @@ function bullshitter() {
     $('input[type=text]').on('input',
         function(){
             trial.reportedRoll = parseInt($(this).val());
-            if(trial.reportedRoll >= 1 && trial.reportedRoll <= 10 ){
+            if(trial.reportedRoll >= 0 && trial.reportedRoll <= 10 ){
                 $('#report-button').prop('disabled',false);
             } else{
                 $('#report-button').prop('disabled',true);
