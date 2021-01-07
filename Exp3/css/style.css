@@ -1,0 +1,261 @@
+
+.big-button {
+    position: relative;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 1%;
+    width: 50%;
+    padding: 10px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.25em;
+    font-family: "Helvetica", sans-serif;
+}
+
+/* #### Desktops #### */
+@media only screen and (min-width: 1025px){
+    .big-button {
+        position: absolute;
+        bottom: 5%;
+    }
+}
+
+.active-button {
+    border: 2px solid #4CAF50;
+    background-color: white;
+    color: black;
+    display: inline-block;
+}
+
+.active-button:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.active-button:disabled {
+    background-color: #555555;
+    color: white;
+}
+
+.relative-button {
+    position: relative;
+}
+
+
+.pic {
+    height: 200px;
+    width: auto;
+}
+
+p {
+    font-size: 16px;
+    font-family: verdana;
+    margin: 1em 10% 1em 10%;
+}
+
+label {
+    font-size: 16px;
+    font-family: verdana;
+    /*margin: 1em 10% 1em 10%;*/
+}
+
+ul {
+    font-size: 16px;
+    font-family: verdana;
+    margin: 0.5em 10% 0.5em 10%;
+}
+
+.indent {
+    margin: 0em 15% 0em 15%;
+}
+
+#subsetInstr {
+    padding: 2px;
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.mtitle {
+    padding: 2px;
+    display: block;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.instructText {
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.instructTextSmall {
+    font-size: 14px;
+}
+
+.tab {
+    margin-left: 18%;
+}
+
+body {
+    background-color: white;
+}
+
+.screen {
+    display: none;
+}
+
+.questions {
+    font-size: 25px;
+    font-family: verdana;
+    color: black;
+}
+
+.textleft {
+    margin-left: 10%;
+    float: left;
+    font-size: 1.25em;
+}
+
+.textright {
+    float: right;
+    margin-right: 10%;
+    font-size: 1.25em;
+}
+
+.picture1 {
+    height: 120px;
+    width: auto;
+    float: left;
+    margin-left: 10%
+}
+
+.picture2 {
+    height: 120px;
+    width: auto;
+    margin-right: 10%;
+    float: right;
+}
+
+
+
+
+#roll-button {
+    margin: 10px;
+    padding: 5px;
+}
+
+#report-button {
+    padding: 3px;
+}
+
+#dice {
+    height: 230px;
+    width: 230px;
+    background-color: #e31b1b;
+}
+
+#dice-text {
+    position: relative;
+    top: 65px;
+    font-size: 72px;
+    font-style: bold;
+    font-family: Tahoma;
+    color: white;
+}
+
+#dice-image {
+    position: relative;
+    top: 50%;
+    transform: translateY(-40%);
+    left: -10px;
+    height: 250px;
+    width: 250px;
+}
+
+#subjResponse {
+    position: relative;
+    float: right;
+    padding-top: 10px;
+    padding-bottom: 2px;
+    width: 70%;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+#responseAccRej {
+    font-size: 14px;
+}
+
+#reportMarbles {
+    border: 3px solid red;
+}
+
+#reportMarbles:focus {
+    border: 2px solid lightblue;
+}
+
+#buttonResponse {
+    position: relative;
+    float: right;
+    padding-top: 2px;
+    padding-bottom: 5px;
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.callout-button {
+    opacity: 0.8;
+    color: black;
+}
+
+#accept-button {
+    background-color: green;
+}
+
+#reject-button {
+    background-color: red;
+}
+
+#catchQ {
+    margin-left: 25%;
+    font-size: 30px;
+}
+
+.scoreReport {
+    margin-left: 20%;
+    margin-right: 20%;
+    font-size: 20px;
+}
+
+.scoreboardDiv {
+  margin-left: 25%;
+  margin-right: 25%;
+  padding: 40px;
+}
+
+.scoreCol {
+  width: 50%;
+  float: left;
+  font-size: 28px;
+  text-align: center;
+}
+
+.totalScores {
+    font-size: 40px;
+}
+
+#statsBox {
+    margin-left: 25%;
+    margin-right: 25%;
+    padding: 10px;
+    border: 5px solid black;
+}
+
+
+
+
