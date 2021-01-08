@@ -169,7 +169,7 @@ body {
 
 #dice-image {
     position: relative;
-    top: 50%;
+    top: 0%;
     transform: translateY(-40%);
     left: -10px;
     height: 250px;
