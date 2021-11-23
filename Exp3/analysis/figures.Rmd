@@ -1,0 +1,180 @@
+---
+title: "SnakeEyes Expt 3 -- Figures"
+author: "Lauren Oey"
+date: "10/19/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source('cleanData.R')
+library(tidyverse)
+library(lme4)
+
+
+sender <- read_csv("sender.csv")
+receiver <- read_csv("receiver.csv")
+```
+
+# Sender's behavior
+
+## Sender's rate of lying | k
+
+```{r}
+sender %>%
+  mutate(lie = as.numeric(k != ksay)) %>%
+  ggplot(aes(x=k, y=lie)) +
+  stat_summary() +
+  #geom_smooth(method="glm", method.args = list(family = "binomial"), se = FALSE) +
+  scale_x_continuous("true roll") +
+  scale_y_continuous("lying rate", limits=c(0,1)) +
+  theme_minimal()
+
+sender %>%
+  group_by(subjID) %>%
+  summarise(propTruth = sum(k==ksay)/n()) %>%
+  arrange(desc(propTruth))
+sender %>%
+  filter(k != 5, ksay == 10 - k) %>%
+  group_by(subjID) %>%
+  summarise(n = n()) %>%
+  arrange(desc(n))
+```
+
+## Sender's ksay | k
+
+Bar graph ksay | k
+```{r}
+sender %>%
+  mutate(truth = k == ksay) %>%
+  ggplot(aes(x=ksay, fill=truth)) +
+  geom_bar() +
+  scale_x_continuous("reported roll", expand=c(0,0), breaks=seq(0,10,2)) +
+  scale_y_continuous(breaks=seq(0,400,400)) +
+  scale_fill_manual(values=c("red","forestgreen")) +
+  coord_flip() +
+  guides(fill=F) +
+  facet_wrap(~k, ncol=11) +
+  theme_bw()
+```
+
+Tile plot proportion of ksay | k
+```{r}
+sender %>%
+  count(k, ksay) %>%
+  complete(k=0:10, ksay=0:10, fill = list(n = 0)) %>%
+  group_by(k) %>%
+  mutate(prop = n/sum(n)) %>%
+  ggplot(aes(x=k, y=ksay, fill=prop)) +
+  geom_tile() +
+  scale_x_continuous("true roll", expand=c(0,0), breaks=seq(0,10,2)) +
+  scale_y_continuous("reported roll", expand=c(0,0), breaks=seq(0,10,2)) +
+  scale_fill_gradient2(low="white", mid="darkorchid", high="blue", midpoint=0.5, limits=c(0,1))
+```
+
+## Sender's ksay | k, lie
+
+```{r}
+temp <- filter(sender, k != ksay) %>%
+  mutate(k = k - 5)
+summ <- summary(lmer(ksay ~ k + (1 | subjID), data=temp))
+lms <- data.frame(
+  b0.est = summ$coefficients["(Intercept)","Estimate"],
+  b0.se = summ$coefficients["(Intercept)","Std. Error"],
+  b1.est = summ$coefficients["k","Estimate"],
+  b1.se = summ$coefficients["k","Std. Error"]
+) %>%
+  mutate(b0 = format(round(b0.est,2), nsmall = 2),
+         b1 = format(round(b1.est,2), nsmall = 2),
+         lm = paste0(b0, " + ", b1, "x"))
+
+sender %>%
+  filter(k != ksay) %>%
+  ggplot() +
+  geom_jitter(aes(x=k, y=ksay), colour="gray60", size=0.5, alpha=0.8) +
+  stat_summary(aes(x=k, y=ksay), colour="darkviolet", shape=21) +
+  geom_smooth(aes(x=k, y=ksay), method="lm", se=F, colour="black") +
+  geom_text(data=lms, aes(label=lm), x=8, y=9, hjust=0) +
+  scale_x_continuous("true roll") +
+  scale_y_continuous("reported roll") +
+  theme_bw()
+```
+
+# Receiver's behavior
+
+## Receiver's BS | ksay
+
+```{r}
+receiver %>%
+  mutate(callBS = as.numeric(callBS)) %>%
+  ggplot(aes(x=ksay, y=callBS)) +
+  stat_summary() +
+  scale_x_continuous("reported roll") +
+  scale_y_continuous("proportion BS called", limits=c(0,1)) +
+  theme_minimal()
+```
+
+
+
+# Individual subjects
+```{r}
+sender %>%
+  filter(subjID == "subj009") %>%
+  count(k, ksay) %>%
+  complete(k=0:10, ksay=0:10, fill = list(n = 0)) %>%
+  ggplot(aes(x=k, y=ksay, fill=n)) +
+  geom_tile() +
+  scale_x_continuous("true roll", expand=c(0,0), breaks=seq(0,10,2)) +
+  scale_y_continuous("reported roll", expand=c(0,0), breaks=seq(0,10,2)) +
+  scale_fill_gradient2(low="white", mid="darkorchid", high="blue", midpoint=3.5, limits=c(0,7))
+round(0.429,2)
+# Randomly sample subject
+sampleSubj <- function(){
+  this.subj = sample(unique(sender$subjID))
+  this.subj.stats <- sender %>%
+    filter(subjID == this.subj) %>%
+    summarise(pTrue = sum(k == ksay)/n())
+  sender %>%
+    filter(subjID == this.subj) %>%
+    count(k, ksay) %>%
+    complete(k=0:10, ksay=0:10, fill = list(n = 0)) %>%
+    ggplot(aes(x=k, y=ksay, fill=n)) +
+    geom_tile() +
+    scale_x_continuous("true roll", expand=c(0,0), breaks=seq(0,10,2)) +
+    scale_y_continuous("reported roll", expand=c(0,0), breaks=seq(0,10,2)) +
+    scale_fill_gradient(low="white", high="darkorchid") +
+    ggtitle(paste0(this.subj, " (pTrue = ", round(this.subj.stats$pTrue,2), ")"))
+}
+
+sampleSubj()
+
+subj.stats <- sender %>%
+  group_by(subjID) %>%
+  summarise(pTrue = sum(k == ksay)/n(),
+            minKsay = min(ksay))
+n.subj <- length(unique(sender$subjID))
+diagTiles <- data.frame(subjID=rep(unique(sender$subjID), each=11), 
+               k=0:10, 
+               ksay=0:10, 
+               n=-1)
+
+sender %>%
+  group_by(subjID) %>%
+  count(k, ksay) %>%
+  complete(k=0:10, ksay=0:10, fill = list(n = 0)) %>%
+  ggplot(aes(x=k, y=ksay)) +
+  geom_tile(fill=n) +
+  geom_tile(
+    data=data.frame(subjID=rep(unique(sender$subjID), each=11), 
+               k=0:10, 
+               ksay=0:10, 
+               n=-1), 
+    aes(colour=n))
+  scale_x_continuous("true roll", expand=c(0,0), breaks=seq(0,10,2)) +
+  scale_y_continuous("reported roll", expand=c(0,0), breaks=seq(0,10,2)) +
+  scale_fill_gradient(low="white", high="darkorchid") +
+  facet_wrap(~subjID) +
+  theme_bw()
+ggsave("img/tile_allsubj.png", width=10, height=10)
+```
+

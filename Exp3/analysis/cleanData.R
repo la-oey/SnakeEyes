@@ -1,4 +1,4 @@
-setwd("/Users/loey/Desktop/Research/FakeNews/SnakeEyes/Exp2/analysis/")
+setwd("/Users/loey/Desktop/Research/FakeNews/SnakeEyes/Exp3/analysis/")
 library(tidyverse)
 library(stats4)
 
@@ -32,6 +32,17 @@ raw %>%
   unique()
 
 df <- raw %>%
-  filter(!badsubject, exptPart == "trial")
+  filter(!badsubject, exptPart == "trial") %>%
+  rename(role = roleCurrent,
+         k = trueRoll,
+         ksay = reportedRoll) %>%
+  mutate(role = ifelse(role=="bullshitter", "sender", "receiver")) %>%
+  select(subjID, trialNumber, role, k, ksay, callBS)
 
+sender <- df %>%
+  filter(role == "sender")
+write.csv(sender, "sender.csv")
 
+receiver <- df %>%
+  filter(role == "receiver")
+write.csv(receiver, "receiver.csv")
